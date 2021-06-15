@@ -12,9 +12,9 @@ public class Player : MonoBehaviour
     public int id_room;
 
     [Header("Invetory")]
-    public List<GameObject> MyItems = new List<GameObject>();
-    public GameObject WeaponSelected;
-    public GameObject ArmourSelected;
+    //public List<GameObject> MyItems = new List<GameObject>();
+    public int id_w;
+    //public GameObject ArmourSelected;
 
     [Header("Setting")]
     private UnityEngine.SceneManagement.Scene room;
@@ -26,14 +26,34 @@ public class Player : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
     public SoundList soundList;
+
+    private PlayerController pc;
+    private WeaponScript ws;
+
+    [Header("Dont Destroy On Load")]
+    public GameObject[] DDoL;
     private void Awake()
     {
+
+        for (int i = 0; i <= DDoL.Length -1; i++) {
+            DontDestroyOnLoad(DDoL[i]);
+        }
+
         room = SceneManager.GetActiveScene();
         id_room = room.buildIndex;
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
         float h = health;
         slider_hp.value = h.Remap(0f, 100f, min_fake, max_fake);
+
+        pc = gameObject.GetComponent<PlayerController>();
+        ws = gameObject.GetComponent<WeaponScript>();
+    }
+
+    public void PickUpWeapon(int wp)
+    {
+        pc.id_weapon = wp;
+        StartCoroutine(ws.ChangeWeapon());
     }
     public void TakeDamage(int damage)
     {

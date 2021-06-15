@@ -193,7 +193,7 @@ public class Enemy : MonoBehaviour
         //List<GameObject> spawningTrue = new List<GameObject>();
         ItemLoot ItemLootSelected = ItemLoot.AllItems.ReturnRandom<ItemLoot>();
         for (int i = 0; i <= ItemLootSelected.itemDropCount; i++) {
-            GameObject objects = Instantiate(ItemLootSelected.nameID, getT.transform.position + new Vector3(Random.Range(0,0.2f), Random.Range(0, 0.2f)), getT.transform.rotation, null);
+            GameObject objects = Instantiate(ItemLootSelected.nameID, getT.transform.position + new Vector3(Random.Range(0,0.2f), Random.Range(0, 0.2f)), Quaternion.Euler(0f,0f,0f), null);
         }
     }
 }

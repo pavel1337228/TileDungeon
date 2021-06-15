@@ -6,6 +6,9 @@ public class WeaponScript : MonoBehaviour
 {
     public GameObject WeaponSelection;
     public GameObject Animator;
+
+    public GameObject WeaponSelectionTemplate;
+    public GameObject AnimatorTemplate;
     private GameObject WeaponParent;
     private PlayerController pc;
     private int ID;
@@ -26,23 +29,42 @@ public class WeaponScript : MonoBehaviour
         }
 
         ID = pc.id_weapon;
+
         try
         {
             if (WeaponSelection.name != "MyWeapon")
-            Destroy(WeaponSelection);
+            {
+                Destroy(WeaponSelection);
+                WeaponSelection = WeaponSelectionTemplate;
+            }
         }
         catch { print("Object = null"); }
 
         try
         {
             if (Animator.name != "Animator")
+            {
                 Destroy(Animator);
+                Animator = AnimatorTemplate;
+            }
         }
         catch { print("Object = null"); }
 
+
         myweap = Instantiate(WeaponSelection, WeaponParent.transform.position, Quaternion.EulerAngles(0, 0, 0), WeaponParent.transform);
         myanim = Instantiate(Animator, WeaponParent.transform.position, Quaternion.EulerAngles(0,0,0), myweap.transform);
+
+        WeaponSelection = myweap;
+        Animator = myanim;
+
         GameObject animator = pc.wplist.weapons[ID].animator;
+
+        myweap.name = "" + pc.wplist.weapons[ID].weapon_name;
+        myanim.name = "" + pc.wplist.weapons[ID].weapon_name + ".Animator";
+
+        print(animator.name);
+        print(myanim.name);
+
 
         myweap.transform.localRotation = Quaternion.Euler(0f,0f,0f);
 
@@ -56,8 +78,6 @@ public class WeaponScript : MonoBehaviour
 
 
 
-        myweap.name = "" + pc.wplist.weapons[ID].weapon_name;
-        myanim.name = "" + pc.wplist.weapons[ID].weapon_name + ".Animator";
         attackRange = pc.wplist.weapons[ID].attack_range;
         startTimeBtwAttack = pc.wplist.weapons[ID].start_time_attack;
     }

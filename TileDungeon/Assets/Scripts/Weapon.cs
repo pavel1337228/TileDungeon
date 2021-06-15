@@ -6,6 +6,7 @@ using UnityEngine;
 public class Weapon : ScriptableObject
 {
     [Header("Weapon Info")]
+    public int weapon_id;
     public string weapon_name;
     public string weapon_discr;
     public int cost;
